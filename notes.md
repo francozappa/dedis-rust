@@ -167,6 +167,10 @@
     * https://cryptocoding.net/index.php/Coding_rules
         * Eg: no secret branching (no branch-prediction unit leakage)
         * Eg: no secret memory location (no cache-timing, hyper threading attacks)
+    * avoid unnecessary randomness
+        * deterministic encryption
+    * speed may reduce security
+        * precomputed lookup tables
 
 * Side-channel attacks (invasive, non invasive):
     * types
@@ -303,7 +307,6 @@ Go code example for ECDH:
 ## Rust ##
 
 ### External Crates ###
-
 
 * [stdx collection](https://github.com/brson/stdx)
     * contains official rust-lang crates
