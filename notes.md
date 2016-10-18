@@ -48,7 +48,6 @@
         * [dedis crypto](https://godoc.org/github.com/dedis/crypto)
     * rust
         * [rust-crypto](https://github.com/DaGenix/rust-crypto)
-        * [zcash-bn pairing](https://github.com/zcash/bn)
         * [octavo](https://github.com/libOctavo/octavo.git)
         * [ring](https://github.com/briansmith/ring)
         * [crypto-bench](https://github.com/briansmith/crypto-bench)
@@ -97,7 +96,6 @@
 
 * Libs
     * [libsodium](https://download.libsodium.org/doc/)
-    * [pairing based crypto](https://crypto.stanford.edu/pbc/)
     * [pgp](https://www.gnu.org/software/libgcrypt/)
     * [tls, ssl](https://www.openssl.org/)
     * [cryptopp c++](http://www.cryptopp.com/wiki/Main_Page)
@@ -111,6 +109,32 @@
 
 * Zero Knowledge
     * https://blog.cryptographyengineering.com/2014/11/27/zero-knowledge-proofs-illustrated-primer/
+
+### BLS Signature (ECC, PBC) ###
+
+* We’ve identified a number of uses for BLS and related crypto systems here
+
+* BLS requires a pairing-based crypto system,
+    * our Go crypto library doesn’t yet have
+    * though it has semi-working bindings to Stanford’s PBC library
+    * you would either need to port or create bindings for that functionality
+    * No OpenSSL support for pairing-based crypto
+
+* C lib
+    * `pbc`
+        * Steven Allen from AUR
+        * https://crypto.stanford.edu/pbc/
+        * builds on https://gmplib.org/
+    * `relic`
+        * Moritz Lipp from AUR
+        * https://github.com/relic-toolkit/relic
+        * seems PBC state-of-the-art
+
+* Rust lib
+    * `bn` zcash
+        * https://github.com/zcash/bn
+    * openssl bindings
+        * https://github.com/sfackler/rust-openssl
 
 ### Elliptic Curve Crypto ###
 
