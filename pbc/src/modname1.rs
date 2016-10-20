@@ -1,3 +1,6 @@
+// src/modname1.rs
+// vim: foldmethod=marker
+
 // module doc {{{1
 //! `modname1` is cool.
 //!

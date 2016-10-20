@@ -1,12 +1,15 @@
-// module doc {{{1
-//! `modname2` is super cool.
+// src/bls.rs
+// vim: foldmethod=marker
+
+// bls doc {{{1
+//! `bls` implements Boneh, Lynn, and Shacam (BLS) short signature scheme.
 //!
-//! Use modules as compilation units (incremental compilation), and as
-//! namespaces.
 
 // const {{{1
 
 // private {{{1
+
+// documented {{{2
 
 // not documented {{{2
 #[allow(dead_code)]
@@ -14,13 +17,41 @@ fn cool() {
     println!("modname2 is not public");
 }
 
-// documented {{{2
-
 // public {{{1
-
-// not documented {{{2
-
 // documented {{{2
+/// Interface to the BLS struct.
+#[inline]
+#[allow(non_snake_case)]
+pub fn BLS() -> BLS {
+    BLS::new()
+}
+
+/// Positive integer scalar.
+pub struct Scalar {
+    x: u32,
+}
+
+/// Two dimensional point.
+pub struct Point {
+    x: f32,
+    y: f32,
+}
+// not documented {{{2
+#[allow(non_snake_case)]
+pub struct BLS {
+    pub GP: Point,
+}
+
+impl BLS {
+
+    fn new() -> BLS {
+        BLS {
+            GP: Point { x: 0.0, y: 0.0 },
+        }
+    }
+
+}
+
 
 // unit tests module {{{1
 #[cfg(test)]

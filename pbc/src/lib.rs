@@ -56,7 +56,6 @@ pub mod bls;
 // use {{{1
 // NOTE: `use` enables to use short qualifiers
 
-// NOTE: `std` is always included in the main file
 // `std` {{{2
 #[allow(unused_imports)]
 use std::sync::{Arc, RwLock};
@@ -64,17 +63,19 @@ use std::sync::{Arc, RwLock};
 // extern {{{2
 
 // internal {{{2
+use bls::{Point, Scalar};
 
 // traits (aka interfaces) {{{1
 
 // NOTE: ported from abstract/group.go
+#[allow(non_snake_case)]
 pub trait Group {
-    StringId(&self) -> String;    // FIXME: used for?
-    ScalarLen(&self) -> u32;      // Max len of scalars in bytes
-    Scalar(&mut self) -> Scalar;  // Create a new scalar
-    PointLen(&self) -> u32;       // Max len of point in bytes
-    Point(&self) -> Point;        // Create a new point
-    PrimeOrder(&self) -> bool     // Returns `true` if group is prime-order
+    fn StringId(&self) -> String;    // FIXME: used for?
+    fn ScalarLen(&self) -> u32;      // Max len of scalars in bytes
+    fn Scalar(&mut self) -> Scalar;  // Create a new scalar
+    fn PointLen(&self) -> u32;       // Max len of point in bytes
+    fn Point(&self) -> Point;        // Create a new point
+    fn PrimeOrder(&self) -> bool;     // Returns `true` if group is prime-order
 }
 
 
