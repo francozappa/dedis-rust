@@ -88,11 +88,12 @@
 
 ## Crypto ##
 
-* General resources
-    * [awesome crypto](https://github.com/sobolevn/awesome-cryptography)
-    * [prime number glossary](http://primes.utm.edu/glossary/home.php)
-    * Ben Lynn (stan)
-    * http://crypto.stackexchange.com/
+### General resources
+
+* [awesome crypto](https://github.com/sobolevn/awesome-cryptography)
+* [prime number glossary](http://primes.utm.edu/glossary/home.php)
+* Ben Lynn (stan)
+* http://crypto.stackexchange.com/
 
 * Libs
     * [libsodium](https://download.libsodium.org/doc/)
@@ -111,6 +112,11 @@
     * https://blog.cryptographyengineering.com/2014/11/27/zero-knowledge-proofs-illustrated-primer/
 
 ### BLS Signature (ECC, PBC) ###
+
+* History:
+    * Verheul (from Joux) tripartite DH (key agreement) protocol
+    * Boneh and Franklin identity-based encryption
+    * Boneh Lynn Shacham (BLS) short signature scheme
 
 * We’ve identified a number of uses for BLS and related crypto systems here
 
@@ -135,6 +141,21 @@
         * https://github.com/zcash/bn
     * openssl bindings
         * https://github.com/sfackler/rust-openssl
+
+* Crypto systems:
+    * `CS\_BilinearPairing` private
+        * implementation: `Tate`, `Weil`
+        * elliptic_curve: `CryptoEllipticCurve`
+        * group: `Bla`
+        * easy_problem: `DecisionalDiffieHellman`
+        * hard_problem: `ComputationalBilinearDiffieHellman`
+
+* Protocols:
+    * `ThreePartyOneRoundKeyAgreement`
+        * crypto_system: `CS\_BilinearPairing`
+    * `ShortSignature`
+        * crypto_system: `CS\_BilinearPairing`
+        * crypto_hash_fn: `Bla`
 
 ### Elliptic Curve Crypto ###
 
