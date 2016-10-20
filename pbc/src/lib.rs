@@ -5,9 +5,6 @@
 // TODO: code on GitHub (with badges)
 // TODO: news on user forum and reddit
 
-// NOTE: `//!` documents the enclosing item
-// NOTE: Eg: use it for module or crates documentation
-
 // crate doc {{{1
 //! `pbc` is crate implementing a pairing-based cryptosystem
 //!
@@ -48,7 +45,7 @@
 // NOTE: `mod` exports only `pub` objects
 
 // public {{{2
-pub mod modname1;
+pub mod ecc;
 pub mod bls;
 
 // private {{{2

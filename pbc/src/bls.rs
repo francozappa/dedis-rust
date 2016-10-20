@@ -1,7 +1,7 @@
 // src/bls.rs
 // vim: foldmethod=marker
 
-// bls doc {{{1
+// doc {{{1
 //! `bls` implements Boneh, Lynn, and Shacam (BLS) short signature scheme.
 //!
 

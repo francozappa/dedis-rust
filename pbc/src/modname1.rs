@@ -2,7 +2,7 @@
 // vim: foldmethod=marker
 
 // module doc {{{1
-//! `modname1` is cool.
+//! `modname1` is a mock module.
 //!
 //! Use modules as compilation units (incremental compilation), and as
 //! namespaces.
