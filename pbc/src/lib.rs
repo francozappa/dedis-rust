@@ -1,4 +1,5 @@
 // src/lib.rs
+// vim: foldmethod=marker
 
 // TODO: ship to crates.io, (spell check)
 // TODO: code on GitHub (with badges)
@@ -47,27 +48,34 @@
 // NOTE: `mod` exports only `pub` objects
 
 // public {{{2
-// NOTE: expects `modname1` into `src`
 pub mod modname1;
+pub mod bls;
 
 // private {{{2
-// NOTE: expects `modname2` into `src`
-mod modname2;
 
 // use {{{1
 // NOTE: `use` enables to use short qualifiers
 
-// `std` {{{2
 // NOTE: `std` is always included in the main file
-
+// `std` {{{2
 #[allow(unused_imports)]
 use std::sync::{Arc, RwLock};
 
 // extern {{{2
-#[allow(unused_imports)]
 
 // internal {{{2
-// TODO
+
+// traits (aka interfaces) {{{1
+
+// NOTE: ported from abstract/group.go
+pub trait Group {
+    StringId(&self) -> String;    // FIXME: used for?
+    ScalarLen(&self) -> u32;      // Max len of scalars in bytes
+    Scalar(&mut self) -> Scalar;  // Create a new scalar
+    PointLen(&self) -> u32;       // Max len of point in bytes
+    Point(&self) -> Point;        // Create a new point
+    PrimeOrder(&self) -> bool     // Returns `true` if group is prime-order
+}
 
 
 // examples {{{1
