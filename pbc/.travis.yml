@@ -1,0 +1,33 @@
+# .travis.yml
+
+sudo: false
+
+language: rust
+rust:
+  - stable
+  - beta
+  - nightly
+
+cache: cargo
+
+matrix:
+  allow_failures:
+    - rust: nightly
+
+# fail CI build using rustfmt in diff mode
+before_script: (cargo install rustfmt || true)
+script:
+- |
+  export PATH=$PATH:~/.cargo/bin &&
+  cargo fmt -- --write-mode=diff &&
+  cargo build &&
+  cargo test
+
+# TODO
+# deploy:
+#   provider: releases
+#   api_key: "TODO"
+#   file: "TODO"
+#   skip_cleanup: true
+#   on:
+#     tags: true

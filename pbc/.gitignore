@@ -1,0 +1,8 @@
+# cargo
+Cargo.lock
+
+# repo
+target/
+
+# rustfmt
+*.bk

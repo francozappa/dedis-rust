@@ -1,0 +1,120 @@
+# links:
+# http://doc.crates.io/manifest.html#the-project-layout
+# https://crates.io/
+
+# NOTE: crate means library or binary application
+# NOTE: a crate is a set of modules
+# NOTE: module means namespace
+
+
+# package {{{1
+[package]
+# info {{{2
+name = "pbc"
+version = "0.1.0"  # semantic versioning
+authors = ["francozappa <antonioli.daniele@gmail.com>"]
+# metadata {{{2
+# NOTE: no markdown support
+# NOTE: not rendered when uploaded in crates.io
+description = """
+Crate that implements the pairing based cryptosystem.
+"""
+# NOTE: URLs
+documentation = "TODO"
+homepage = "TODO"
+repository = "https://github.com/francozappa/dedis-rust"
+# NOTE: README.md path is relative to Cargo.toml
+# NOTE: content stored an indexed in the registry
+readme = "README.md"
+# NOTE: used as search keywords
+keywords = ["crypto", "security", "pbc"]
+# NOTE: validate against http://spdx.org/licenses/ whitelist
+# NOTE: separate multiple licenses with `\`
+license = "MIT"
+# NOTE: if crate uses non-std license then specify one
+# NOTE: relative to Cargo.toml
+# license-file = "LICENSE"
+
+# build {{{2
+# NOTE: glob can be used
+# exclude = ["build/**/*.o", "doc/**/*.html"]
+exclude = [
+    ".gitignore",
+    ".travis.yml",
+]
+# include = ["src/**/*", "Cargo.toml"]
+
+# release {{{2
+publish = false  # prevent to publish in a repo by mistake
+
+
+# The development profile, used for `cargo build`.
+[profile.dev]
+opt-level = 0      # controls the `--opt-level` the compiler builds with
+debug = true       # controls whether the compiler passes `-g`
+rpath = false      # controls whether the compiler passes `-C rpath`
+lto = false        # controls `-C lto` for binaries and staticlibs
+debug-assertions = true # controls whether debug assertions are enabled
+codegen-units = 1  # controls whether the compiler passes `-C codegen-units`
+                   # `codegen-units` is ignored when `lto = true`
+panic = 'unwind'   # panic strategy (`-C panic=...`), can also be 'abort'
+
+
+# lib {{{1
+[lib]
+name = "pbc"
+
+# profiles {{{1
+# release {{{2
+# The release profile, used for `cargo build --release`.
+[profile.release]
+opt-level = 3
+debug = false
+rpath = false
+lto = false
+debug-assertions = false
+codegen-units = 1
+panic = 'unwind'
+
+# test {{{2
+# The testing profile, used for `cargo test`.
+[profile.test]
+opt-level = 0
+debug = true
+rpath = false
+lto = false
+debug-assertions = true
+codegen-units = 1
+panic = 'unwind'
+
+# bench {{{2
+# The benchmarking profile, used for `cargo bench`.
+[profile.bench]
+opt-level = 3
+debug = false
+rpath = false
+lto = false
+debug-assertions = false
+codegen-units = 1
+panic = 'unwind'
+
+# doc {{{2
+# The documentation profile, used for `cargo doc`.
+[profile.doc]
+opt-level = 0
+debug = true
+rpath = false
+lto = false
+debug-assertions = true
+codegen-units = 1
+panic = 'unwind'
+
+
+# dependencies {{{1
+# http://doc.crates.io/specifying-dependencies.html
+[dependencies]
+# required {{{2
+# optional {{{2
+
+# features {{{1
+# [features]
