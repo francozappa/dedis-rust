@@ -48,9 +48,9 @@ doc-o:
 # run {{{2
 run:
 	$(CARGO) run
-run-e1:
+run-bls:
 	# NOTE: no file extension is required
-	$(CARGO) run --example functionality1
+	$(CARGO) run --example bls
 # lint {{{2
 clippy:
 	# NOTE: requires nightly and cargo install clippy
