@@ -5,24 +5,16 @@
 //! namespaces.
 
 // const {{{1
-// NOTE: module scope
-const ROUNDS: u8 = 24;
 
 // private {{{1
-// NOTE: private declaration by-default
 
 // not documented {{{2
-
-// documented {{{2
-/// Always returns the `ROUNDS` `const`.
-pub fn unit2() -> u8 {
-    ROUNDS
-}
-
 #[allow(dead_code)]
 fn cool() {
     println!("modname2 is not public");
 }
+
+// documented {{{2
 
 // public {{{1
 
@@ -31,10 +23,6 @@ fn cool() {
 // documented {{{2
 
 // unit tests module {{{1
-
-// FIXME: find a way to remove `#[test]` from all test function
-// NOTE: `cargo test` will compile this module
-// NOTE: conditional compilation only with `cargo test`
 #[cfg(test)]
 mod tests {
 

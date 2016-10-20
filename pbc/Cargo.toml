@@ -114,6 +114,7 @@ panic = 'unwind'
 # http://doc.crates.io/specifying-dependencies.html
 [dependencies]
 # required {{{2
+rand = "*"
 # optional {{{2
 
 # features {{{1
