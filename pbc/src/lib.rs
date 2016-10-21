@@ -5,35 +5,27 @@
 // TODO: code on GitHub (with badges)
 // TODO: news on user forum and reddit
 
+// NOTE: doctests supported only for lib
 // crate doc {{{1
 //! `pbc` is crate implementing a pairing-based cryptosystem
 //!
 //! # Goals
 //!
-//! * Re-usable boilerplate code
+//! * TODO
 //! * Instructive to learn (together) how to strucute a crate
 //!
 //! # Usage
 //!
-//! Download it, try it, and fix it.
+//! TODO
 //!
 //! # Examples
 //!
 //! ```
 //! use pbc::*;
 //!
-//! // NOTE: doctests supported only for lib
-//! assert_eq!(2_u32, modname1::cratedoctest());
+//! assert!(true);
 //! ```
 //!
-//! # Examples
-//!
-//! ```
-//! use pbc::*;
-//!
-//! // NOTE: crate doctests named: `test _0` `test _1`
-//! assert_eq!(2_u32, modname1::cratedoctest());
-//! ```
 
 // config {{{1
 #![crate_type= "lib"]
@@ -47,11 +39,11 @@
 // public {{{2
 pub mod ecc;
 pub mod bls;
+pub mod random;
 
 // private {{{2
 
 // use {{{1
-// NOTE: `use` enables to use short qualifiers
 
 // `std` {{{2
 #[allow(unused_imports)]
@@ -60,26 +52,10 @@ use std::sync::{Arc, RwLock};
 // extern {{{2
 
 // internal {{{2
-use bls::{Point, Scalar};
-
-// traits (aka interfaces) {{{1
-
-// NOTE: ported from abstract/group.go
-#[allow(non_snake_case)]
-pub trait Group {
-    fn StringId(&self) -> String;    // FIXME: used for?
-    fn ScalarLen(&self) -> u32;      // Max len of scalars in bytes
-    fn Scalar(&mut self) -> Scalar;  // Create a new scalar
-    fn PointLen(&self) -> u32;       // Max len of point in bytes
-    fn Point(&self) -> Point;        // Create a new point
-    fn PrimeOrder(&self) -> bool;     // Returns `true` if group is prime-order
-}
+// use ecc::{Point, Scalar};
 
 
 // examples {{{1
 // NOTE: show APIs and use cases
-
-pub fn functionality1() {
-    println!("functionality1 is `pub`");
-}
+// NOTE: see examples folder
 

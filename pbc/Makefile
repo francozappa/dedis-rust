@@ -49,7 +49,6 @@ doc-o:
 run:
 	$(CARGO) run
 run-bls:
-	# NOTE: no file extension is required
 	$(CARGO) run --example bls
 # lint {{{2
 clippy:

@@ -2,44 +2,50 @@
 
 extern crate pbc;
 
-// NOTE: `nil` substrituted with `GP`
-// NOTE: methods names are snake_cased (Rust convention)
+use pbc::random;
+use pbc::bls;
+use pbc::bls::BLSScheme;
+
+// // NOTE: `nil` substrituted with `GP`
+// // NOTE: methods names are snake_cased (Rust convention)
 fn main() {
-    use pbc;
 
-    // Crypto setup
-    let suite = pbc::bls::BLS();
-    let GP = suite.GP;  // A group's generator point
+    println!("ciao");
 
-    // Alice's public/private keypair
-    let a = suite.Scalar().Pick(random.Stream); // Alice's private key
-    let A = suite.Point().Mul(GP, a);           // Alice's public key
+    // // Crypto setup
+    // let suite = bls::bls();
+    // let GP = suite.generator();
 
-    // Bob's public/private keypair
-    let b = suite.Scalar().Pick(random.Stream); // Alice's private key
-    let B = suite.Point().Mul(GP, b);          // Alice's public key
+    // // Alice's public/private keypair
+    // let a = suite.scalar().pick();
+    // let A = suite.point().mul(GP, a);
 
-    // Assume Alice and Bob have securely obtained each other's public keys.
+    // // Bob's public/private keypair
+    // let b = suite.scalar().pick();
+    // let B = suite.point().mul(GP, b);
 
-    // Alice computes their shared secret using Bob's public key.
-    let SA = suite.Point().Mul(B, a);
+    // // Assume Alice and Bob have securely obtained each other's public keys.
 
-    // Bob computes their shared secret using Alice's public key.
-    let SB = suite.Point().Mul(A, b);
+    // // Alice computes their shared secret using Bob's public key.
+    // let SA = suite.point().mul(B, a);
 
-    // They had better be the same!
-    assert_eq!(SA, SB);
-    println!("Shared secret: {:?}", SA);
+    // // Bob computes their shared secret using Alice's public key.
+    // let SB = suite.point().mul(A, b);
 
-    // Now Alice wants to send an authenticated message m to Bob
+    // // They had better be the same!
+    // assert_eq!(SA, SB);
+    // println!("Shared secret: {:?}", SA);
 
-    let m = "Hello, it's Alice.. pbc is cool!";
-    let AM = suite.Hash(m);                       // Hash is crypto-secure and public
-    let AS = suite.Point().Mul(M, a);          // Alice's signature is a single group element
+    // // Now Alice wants to send an authenticated message m to Bob
 
-    // Assume Bob got Alice's message m and signature ASig
+    // let m = "Hello, it's Alice.. pbc is cool!";
+    // // Hash is crypto-secure and the algo is public
+    // let AM = suite.hash(m);
+    // // Alice's signature is a single group element (Point of the curve)
+    // let AS = suite.point().mul(AM, a);
 
-    let BM = suite.Hash(m);
-    let BVerify = suite.Verify(GP, A, BM, AS);
+    // // Assume Bob got Alice's message m and signature ASig
 
+    // let BM = suite.hash(m);
+    // let BVerify = suite.verify(GP, A, BM, AS);
 }

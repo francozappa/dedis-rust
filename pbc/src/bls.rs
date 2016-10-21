@@ -5,6 +5,16 @@
 //! `bls` implements Boneh, Lynn, and Shacam (BLS) short signature scheme.
 //!
 
+// use {{{1
+
+// `std` {{{2
+
+// extern {{{2
+
+// internal {{{2
+use ecc::{Point, Scalar};
+use random::{Stream};
+
 // const {{{1
 
 // private {{{1
@@ -12,43 +22,59 @@
 // documented {{{2
 
 // not documented {{{2
-#[allow(dead_code)]
-fn cool() {
-    println!("modname2 is not public");
-}
 
 // public {{{1
 // documented {{{2
-/// Interface to the BLS struct.
+
 #[inline]
-#[allow(non_snake_case)]
-pub fn BLS() -> BLS {
-    BLS::new()
-}
+/// Interface to the BLS struct.
+pub fn bls() -> BLS { BLS::new() }
 
-/// Positive integer scalar.
-pub struct Scalar {
-    x: u32,
-}
-
-/// Two dimensional point.
-pub struct Point {
-    x: f32,
-    y: f32,
-}
 // not documented {{{2
-#[allow(non_snake_case)]
+pub trait BLSScheme {
+    type G;
+
+    /// Returns the public group generator.
+    fn generator(&self) -> &Point;
+
+    /// Init and returns a `Scalar` struct.
+    fn scalar(&self)    -> Scalar;
+
+    /// Pick a scalar in the correct range.
+    fn pick(&self)      -> Stream;
+
+    /// Returns the message `m` digest using MapToGroup.
+    ///
+    /// More info about the algorithm on the reference paper.
+    fn hash(m: &str)    -> String;
+}
+
 pub struct BLS {
-    pub GP: Point,
+
+    generator: Point,
+
 }
 
 impl BLS {
-
     fn new() -> BLS {
+
         BLS {
-            GP: Point { x: 0.0, y: 0.0 },
+            // NOTE: generator is public
+            // FIXME: set correct value
+            generator: Point::new(1.0, 2.0),
         }
     }
+}
+
+impl BLSScheme for BLS {
+
+    // FIXME: use the correct group
+    type G = i32;
+
+    fn generator(&self) -> &Point { &self.generator }
+    fn scalar(&self)    -> Scalar { unimplemented!() }
+    fn pick(&self)      -> Stream { unimplemented!() }
+    fn hash(m: &str)    -> String { unimplemented!() }
 
 }
 
@@ -57,13 +83,11 @@ impl BLS {
 #[cfg(test)]
 mod tests {
 
-    // NOTE: put parent module `pub` stuff in scope
-    use super::*;
+    use super::BLS;
 
-    // NOTE: `cargo test` will execute this function
     #[test]
     fn it_passes() {
-        assert_eq!(24_u8, unit2());
+        assert!(true);
     }
 }
 
