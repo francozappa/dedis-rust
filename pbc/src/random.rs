@@ -51,10 +51,8 @@ impl Stream {
 #[cfg(test)]
 mod tests {
 
-    // NOTE: put parent module `pub` stuff in scope
     use super::Stream;
 
-    // NOTE: `cargo test` will execute this function
     #[test]
     fn rand_range() {
         let stream = Stream::new(1, 12345).unwrap();

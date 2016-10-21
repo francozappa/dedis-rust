@@ -351,6 +351,14 @@ Go code example for ECDH:
 
 ## Rust ##
 
+### Implementation details ###
+
+* numeric precision
+    * `f32`
+
+* methods
+    * snake-case instead of CamelCase
+
 ### External Crates ###
 
 * [stdx collection](https://github.com/brson/stdx)
