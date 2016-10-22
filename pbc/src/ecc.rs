@@ -9,12 +9,26 @@
 
 // documented {{{2
 /// Group interface.
-pub trait Group {
-    fn scalar_len(&self) -> u32;       // Max len of scalars in bytes
-    fn scalar(&self) -> Scalar;        // Create a new scalar
-    fn point_len(&self) -> u32;        // Max len of point in bytes
-    fn point(&self) -> Point;          // Create a new point
-    fn prime_order(&self) -> bool;     // Returns `true` if group is prime-order
+pub struct Group<'a> {
+    name: &'a str
+}
+
+impl<'a> Group<'a> {
+
+    /// Max len of scalars in bytes
+    fn scalar_len(&self) -> u32 { unimplemented!() }
+
+    /// Create a new scalar
+    fn scalar(&self) -> Scalar { unimplemented!(); }
+
+    /// Max len of point in bytes
+    fn point_len(&self) -> u32 { unimplemented!(); }
+
+    /// Create a new point
+    fn point(&self) -> Point   { unimplemented!(); }
+
+    /// Returns `true` if group is prime-order
+    fn prime_order(&self) -> bool { unimplemented!(); }
 }
 
 /// Positive integer scalar.

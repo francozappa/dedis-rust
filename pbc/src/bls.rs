@@ -12,7 +12,7 @@
 // extern {{{2
 
 // internal {{{2
-use ecc::{Point, Scalar};
+use ecc::{Point, Scalar, Group};
 use random::{Stream};
 
 // const {{{1
@@ -26,11 +26,14 @@ use random::{Stream};
 // public {{{1
 // documented {{{2
 
-#[inline]
-/// Interface to the BLS struct.
-pub fn bls() -> BLS { BLS::new() }
-
 // not documented {{{2
+pub struct Pairing<'a> {
+    name: &'a str,
+    g1: Group<'a>,
+    g2: Group<'a>,
+    gt: Group<'a>,
+}
+
 pub trait BLSScheme {
     type G;
 
@@ -56,7 +59,7 @@ pub struct BLS {
 }
 
 impl BLS {
-    fn new() -> BLS {
+    pub fn new() -> BLS {
 
         BLS {
             // NOTE: generator is public
