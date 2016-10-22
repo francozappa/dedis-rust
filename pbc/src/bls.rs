@@ -34,51 +34,36 @@ pub struct Pairing<'a> {
     gt: Group<'a>,
 }
 
-pub trait BLSScheme {
-    type G;
+pub struct BLS<'a> {
+    name: &'a str,
+    g: Point,
+    // TODO
+    // p: Pairing<'a>,
+}
+
+impl<'a> BLS<'a> {
+    pub fn new() -> BLS<'a> {
+        BLS {
+            name: "Boneh-Lynn-Shacam short signatures scheme",
+            // FIXME: set correct value
+            g: Point::new(1.0, 2.0),
+            // p : TODO
+        }
+    }
 
     /// Returns the public group generator.
-    fn generator(&self) -> &Point;
+    pub fn generator(&self) -> &Point { &self.g }
 
-    /// Init and returns a `Scalar` struct.
-    fn scalar(&self)    -> Scalar;
+    /// Init and move a `Scalar`struct.
+    pub fn scalar(&self)    -> Scalar { Scalar::one() }
 
-    /// Pick a scalar in the correct range.
-    fn pick(&self)      -> Stream;
+    /// Init and move a `Point` struct.
+    pub fn point(&self)     -> Point { Point::origin() }
 
     /// Returns the message `m` digest using MapToGroup.
     ///
     /// More info about the algorithm on the reference paper.
-    fn hash(m: &str)    -> String;
-}
-
-pub struct BLS {
-
-    generator: Point,
-
-}
-
-impl BLS {
-    pub fn new() -> BLS {
-
-        BLS {
-            // NOTE: generator is public
-            // FIXME: set correct value
-            generator: Point::new(1.0, 2.0),
-        }
-    }
-}
-
-impl BLSScheme for BLS {
-
-    // FIXME: use the correct group
-    type G = i32;
-
-    fn generator(&self) -> &Point { &self.generator }
-    fn scalar(&self)    -> Scalar { unimplemented!() }
-    fn pick(&self)      -> Stream { unimplemented!() }
-    fn hash(m: &str)    -> String { unimplemented!() }
-
+    pub fn hash(m: &str)    -> String { unimplemented!() }
 }
 
 

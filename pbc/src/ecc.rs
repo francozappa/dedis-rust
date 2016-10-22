@@ -14,7 +14,6 @@ pub struct Group<'a> {
 }
 
 impl<'a> Group<'a> {
-
     /// Max len of scalars in bytes
     fn scalar_len(&self) -> u32 { unimplemented!() }
 
@@ -33,7 +32,15 @@ impl<'a> Group<'a> {
 
 /// Positive integer scalar.
 pub struct Scalar {
-    n: u32,
+    s: u32,
+}
+
+impl Scalar {
+    pub fn new(s: u32) -> Scalar { Scalar { s: s } }
+    pub fn one() -> Scalar { Scalar { s: 1 } }
+
+    /// Set method
+    pub fn pick<S>(&mut self, s: u32) { self.s = s }
 }
 
 /// Two dimensional point.
@@ -43,9 +50,8 @@ pub struct Point {
 }
 
 impl Point {
-    pub fn new(x: f32, y: f32) -> Point {
-        Point {x: x, y: y }
-    }
+    pub fn new(x: f32, y: f32) -> Point { Point { x: x, y: y } }
+    pub fn origin() -> Point { Point { x: 0.0, y: 0.0 } }
 }
 
 

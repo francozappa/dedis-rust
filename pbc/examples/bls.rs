@@ -2,26 +2,25 @@
 
 extern crate pbc;
 
-use pbc::random;
-use pbc::bls;
-use pbc::bls::BLSScheme;
+use pbc::random::Stream;
+use pbc::bls::BLS;
 
 // // NOTE: `nil` substrituted with `GP`
 // // NOTE: methods names are snake_cased (Rust convention)
+#[allow(non_snake_case)]
 fn main() {
 
-    println!("ciao");
-
     // // Crypto setup
-    // let suite = bls::bls();
-    // let GP = suite.generator();
+    let suite = BLS::new();
+    let GP = suite.generator();
 
+    // FIXME: who decide random Scalar range?
     // // Alice's public/private keypair
-    // let a = suite.scalar().pick();
+    // let a = suite.scalar().pick(Stream::new());
     // let A = suite.point().mul(GP, a);
 
     // // Bob's public/private keypair
-    // let b = suite.scalar().pick();
+    // let b = suite.scalar().pick(Stream::new());
     // let B = suite.point().mul(GP, b);
 
     // // Assume Alice and Bob have securely obtained each other's public keys.

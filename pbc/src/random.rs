@@ -31,15 +31,18 @@ pub struct Stream {
 
 impl Stream {
 
-    /// Generate a fresh random number in a `from` `to` interval.
-    fn new(from: u32, to: u32) -> io::Result<Stream> {
+    // FIXME: who decide the random integer range?
+    /// Generate a fresh random number from 1 to 12345
+    pub fn new() -> Stream {
 
         let rng = OsRng::new();
+        let from: u32 = 1;
+        let to: u32   = 12345;
 
         // FIXME: use combinator
         match rng {
-            Ok(mut r)  => Ok(Stream {s: r.gen_range(from, to) }),
-            Err(e) => Err(e),
+            Ok(mut r)  => Stream {s: r.gen_range(from, to) },
+            Err(e)     => panic!("Error: {}", e),
         }
     }
 
@@ -54,8 +57,8 @@ mod tests {
     use super::Stream;
 
     #[test]
-    fn rand_range() {
-        let stream = Stream::new(1, 12345).unwrap();
+    fn stream_range_ok() {
+        let stream = Stream::new();
 
         assert!(stream.s >= 1 && stream.s <= 12345);
     }
