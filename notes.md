@@ -73,6 +73,9 @@
             * Pollard's rho method
         * low computational power needed
             * Eg: RFID, smart phones
+    * asymmetric pros:
+        * compromised key-pair does not affect the other peers
+        * new devices can be dynamically added to the network
     * ECDSA pros:
         * fast signature and verification
         * deterministic algo allows deterministic implementation
