@@ -20,12 +20,13 @@ fn main() {
 
     let bls = BLS::new();
 
-    //NOTE: generator point is public
+    //NOTE: generator point has to be known by both parties but it is not fixed
+    //NOTE: http://crypto.stackexchange.com/questions/40566/bls-signature-choice-of-generator
     let generator_point = bls.generator();
 
     // Alice's public/private keypair
-    let a_private_k : Scalar = bls.scalar();
-    let a_public_k: Point  = a * generator_point;
+    // let a_private_k : Scalar = bls.private_key();
+    // let a_public_k: Point  = a * generator_point;
 
     // Bob's public/private keypair
     // let b_private_k : Scalar = bls.scalar();

@@ -5,6 +5,8 @@
 //! `ecc` contains Elliptic Curve Crypto objects.
 //!
 
+use random::Stream;
+
 // public {{{1
 
 // documented {{{2
@@ -32,26 +34,30 @@ impl<'a> Group<'a> {
 
 /// Positive integer scalar.
 pub struct Scalar {
-    s: u32,
+    s: u64,
 }
 
 impl Scalar {
-    pub fn new(s: u32) -> Scalar { Scalar { s: s } }
-    pub fn one() -> Scalar { Scalar { s: 1 } }
+    pub fn new(s: u64) -> Scalar { Scalar { s: s } }
+    pub fn one()       -> Scalar { Scalar { s: 1_u64 } }
+    pub fn random(from: u64, to: u64) -> Scalar {
+        let r: u64 = Stream::from_to(from, to).0;
 
-    /// Set method
-    pub fn pick<S>(&mut self, s: u32) { self.s = s }
+        Scalar { s: r }
+    }
 }
 
 /// Two dimensional point.
 pub struct Point {
-    x: f32,
-    y: f32,
+    x: f64,
+    y: f64,
 }
 
 impl Point {
-    pub fn new(x: f32, y: f32) -> Point { Point { x: x, y: y } }
+    pub fn new(x: f64, y: f64) -> Point { Point { x: x, y: y } }
     pub fn origin() -> Point { Point { x: 0.0, y: 0.0 } }
+    pub fn x(&self) -> f64 { self.x }
+    pub fn y(&self) -> f64 { self.y }
 }
 
 
@@ -61,7 +67,7 @@ impl Point {
 #[cfg(test)]
 mod tests {
 
-    #[test]
+    // #[test]
     fn it_passes() {
         assert!(true);
     }

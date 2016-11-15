@@ -25,23 +25,17 @@ use self::rand::Rng;
 // documented {{{2
 
 /// Contains randomness used for secrets.
-pub struct Stream {
-    s: u32,
-}
+pub struct Stream(pub u64);
 
 impl Stream {
-
-    // FIXME: who decide the random integer range?
     /// Generate a fresh random number from 1 to 12345
-    pub fn new() -> Stream {
+    pub fn from_to(from: u64, to: u64) -> Stream {
 
         let rng = OsRng::new();
-        let from: u32 = 1;
-        let to: u32   = 12345;
 
         // FIXME: use combinator
         match rng {
-            Ok(mut r)  => Stream {s: r.gen_range(from, to) },
+            Ok(mut r)  => Stream(r.gen_range(from, to)),
             Err(e)     => panic!("Error: {}", e),
         }
     }
@@ -58,9 +52,9 @@ mod tests {
 
     #[test]
     fn stream_range_ok() {
-        let stream = Stream::new();
+        let stream = Stream::from_to(1, 12345);
 
-        assert!(stream.s >= 1 && stream.s <= 12345);
+        assert!(stream.0 >= 1 && stream.0 <= 12345);
     }
 }
 
