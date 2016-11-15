@@ -5,46 +5,58 @@ extern crate pbc;
 use pbc::random::Stream;
 use pbc::bls::BLS;
 
-// // NOTE: `nil` substrituted with `GP`
-// // NOTE: methods names are snake_cased (Rust convention)
-#[allow(non_snake_case)]
+/// PBC with Rustic API.
+///
+/// Conversion from crypto-notation:
+/// a = a_public_k
+/// A = a_private_k
+/// b = b_public_k
+/// B = b_private_k
+/// P = generator_point
+/// S = a_shared_s = b_shared_s
+/// m = message
+/// M = H(m) = a_m_digest = b_m_digest
 fn main() {
 
-    // // Crypto setup
-    let suite = BLS::new();
-    let GP = suite.generator();
+    let bls = BLS::new();
 
-    // FIXME: who decide random Scalar range?
-    // // Alice's public/private keypair
-    // let a = suite.scalar().pick(Stream::new());
-    // let A = suite.point().mul(GP, a);
+    //NOTE: generator point is public
+    let generator_point = bls.generator();
 
-    // // Bob's public/private keypair
-    // let b = suite.scalar().pick(Stream::new());
-    // let B = suite.point().mul(GP, b);
+    // Alice's public/private keypair
+    let a_private_k : Scalar = bls.scalar();
+    let a_public_k: Point  = a * generator_point;
 
-    // // Assume Alice and Bob have securely obtained each other's public keys.
+    // Bob's public/private keypair
+    // let b_private_k : Scalar = bls.scalar();
+    // let b_public_k: Point  = b * generator_point;
 
-    // // Alice computes their shared secret using Bob's public key.
-    // let SA = suite.point().mul(B, a);
+    // Assume Alice and Bob have securely obtained each other's public keys.
 
-    // // Bob computes their shared secret using Alice's public key.
-    // let SB = suite.point().mul(A, b);
+    // Alice computes their shared secret using Bob's public key.
+    // let a_shared_s: Point = a * b_public_k;
 
-    // // They had better be the same!
-    // assert_eq!(SA, SB);
-    // println!("Shared secret: {:?}", SA);
+    // Bob computes their shared secret using Alice's public key.
+    // let b_shared_s: Point = b * a_public_k;
 
-    // // Now Alice wants to send an authenticated message m to Bob
+    // They had better be the same!
+    // assert_eq!(a_shared_s, b_shared_s);
 
-    // let m = "Hello, it's Alice.. pbc is cool!";
-    // // Hash is crypto-secure and the algo is public
-    // let AM = suite.hash(m);
-    // // Alice's signature is a single group element (Point of the curve)
-    // let AS = suite.point().mul(AM, a);
+    // Now Alice wants to send an authenticated message m to Bob
 
-    // // Assume Bob got Alice's message m and signature ASig
+    // let message = "Hello, it's Alice.. pbc is cool!";
 
-    // let BM = suite.hash(m);
-    // let BVerify = suite.verify(GP, A, BM, AS);
+    // NOTE: hash function is crypto-secure and the algo is public
+    // NOTE: `m_digest` is a Point
+    // let a_m_digest: Point = bls.hash(message);
+
+    // Alice's signature is a single group element (Point of the curve)
+    // let a_sig_m: Point = a * m_digest;
+
+    // Assume Bob got Alice's message and signature
+
+    // let b_m_digest = bls.hash(message);
+    // assert_eq!(a_m_digest, b_m_digest);
+
+    // assert!(bls.verify(generator, a_private_k, b_m_digest, b_shared_s));
 }
