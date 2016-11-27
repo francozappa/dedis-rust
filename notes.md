@@ -356,13 +356,14 @@ Go code example for ECDH:
 
 ### Implementation details ###
 
-* numeric precision
-    * `f32`
+* Use of `?` operator for instead of `try!` macro
 
-* methods
-    * snake-case instead of CamelCase
+* `Result`'s error handling passed to the client
 
 ### External Crates ###
+
+* Big ints
+    * https://rust-num.github.io/num/num/index.html
 
 * [stdx collection](https://github.com/brson/stdx)
     * contains official rust-lang crates
