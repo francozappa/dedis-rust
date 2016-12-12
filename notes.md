@@ -370,6 +370,7 @@ Go code example for ECDH:
     * and others
 * lint
     * [clippy](https://github.com/Manishearth/rust-clippy)
+    * [herbie-lint](https://github.com/mcarton/rust-herbie-lint)
 * constant time run
     * [nadeko](https://github.com/klutzy/nadeko)
     * [ctgrind](https://github.com/ebfe/rust-ctgrind)
