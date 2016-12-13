@@ -1,58 +1,12 @@
-# NOTES #
+# Notes
 
-## TODISCUSS ##
-
-* API:
-    * provide general purpose crypto framework (like rust-crypto)
-    * or provide directly crypto-systems (like sodiumoxide)
-    * links
-        * https://github.com/rust-lang/rust/issues/14655
-
-* Security guarantees:
-    * implementation
-        * no timing attack
-        * no branch prediction attack
-    * curve
-        * twisted analysis
-
-* Repository:
-    * tabs or spaces (I saw that `dedis/crypto` uses Tabs)
-
-* Runtime model:
-    * single or multi-threaded ?
-        * If multi, which paradigm
-    * single or multi-process ?
-        * If multi, which paradigm
-
-* Optimizations:
-    * in line functions?
-    * Rustc?  Nightly
-    * Target platform?
-    * Assembly?
-
-## Goals ##
+## Motivations
 
 * Bryan, Ismail
     * industrial environments availability of efficient crypto
     * based on elliptic curves such as Ed25519
     * implemented in a more secure/type safe not garbage collected
     * for efficiency, deterministic performance and cross-language linkability
-
-* Generic library
-    * user change curves and suites
-    * Eg curve: ECDSA with NIST or with Edwards curve
-    * Eg suite: swap ECDSA and DSA
-
-* Similar projects
-    * go
-        * [dedis crypto](https://godoc.org/github.com/dedis/crypto)
-    * rust
-        * [rust-crypto](https://github.com/DaGenix/rust-crypto)
-        * [octavo](https://github.com/libOctavo/octavo.git)
-        * [ring](https://github.com/briansmith/ring)
-        * [crypto-bench](https://github.com/briansmith/crypto-bench)
-        * [libs.rs](http://libs.rs/cryptography/)
-        * [sodiumoxide libsodium binding](https://github.com/dnaq/sodiumoxide)
 
 * Rust motivations
     * code benefits from a modern, safe, fast system programming language
@@ -88,10 +42,134 @@
         * NIST std curve security opinable
         * Bitcoin is not using them
 
+## Implementation
 
-## Crypto ##
+### BLS parameters
 
-### General resources
+* curve 1
+* curve 2
+
+### Library best-practices
+
+* secure implementation
+    * no timing attack
+    * no branch prediction attack
+    * curve selection
+        * twisted analysis
+
+* API:
+    * provide general purpose crypto framework (like rust-crypto)
+    * or provide directly crypto-systems (like sodiumoxide)
+    * links
+        * https://github.com/rust-lang/rust/issues/14655
+
+* Runtime model:
+    * single or multi-threaded ?
+        * If multi, which paradigm
+    * single or multi-process ?
+        * If multi, which paradigm
+
+* Optimizations:
+    * in line functions?
+    * Rustc?  Nightly
+    * Target platform?
+    * Assembly?
+
+* Generic code
+    * user change curves and suites
+    * Eg curve: ECDSA with NIST or with Edwards curve
+    * Eg suite: swap ECDSA and DSA
+
+### dedis/crypto public API
+
+Go code example for ECDH:
+
+    // Crypto setup: NIST-standardized P256 curve with AES-128 and SHA-256
+    suite := nist.NewAES128SHA256P256()
+
+    // Alice's public/private keypair
+    a := suite.Scalar().Pick(random.Stream) // Alice's private key
+    A := suite.Point().Mul(nil, a)          // Alice's public key
+
+    // Bob's public/private keypair
+    b := suite.Scalar().Pick(random.Stream) // Alice's private key
+    B := suite.Point().Mul(nil, b)          // Alice's public key
+
+    // Assume Alice and Bob have securely obtained each other's public keys.
+
+    // Alice computes their shared secret using Bob's public key.
+    SA := suite.Point().Mul(B, a)
+
+    // Bob computes their shared secret using Alice's public key.
+    SB := suite.Point().Mul(A, b)
+
+    // They had better be the same!
+    if !SA.Equal(SB) {
+        panic("Diffie-Hellman key exchange didn't work")
+    }
+    println("Shared secret: " + SA.String())
+
+
+
+
+### Rust
+
+* semantic
+    * Use of `?` operator for instead of `try!` macro
+    * `Result`'s error handling passed to the client
+
+* deps
+    * TODO
+
+* Interesting crates
+    * Deploy
+        * https://github.com/japaric/rust-everywhere
+    * Big ints
+        * https://rust-num.github.io/num/num/index.html
+    * [stdx collection](https://github.com/brson/stdx)
+        * contains official rust-lang crates
+        * and others
+    * lint
+        * [clippy](https://github.com/Manishearth/rust-clippy)
+        * [herbie-lint](https://github.com/mcarton/rust-herbie-lint)
+    * constant time run
+        * [nadeko](https://github.com/klutzy/nadeko)
+        * [ctgrind](https://github.com/ebfe/rust-ctgrind)
+            * https://github.com/agl/ctgrind
+    * Fuzzing, static analysis on build
+        * see ring repo
+    * Benchmarking
+        * [rust crypto bench](https://github.com/briansmith/crypto-bench)
+        * [results](http://bench.cr.yp.to/index.html)
+    * Data validation
+        * input
+            * [untrusted](https://github.com/briansmith/untrusted)
+        * output
+            * `Result` enum with error codes
+            * `panic!`
+    * Coverage
+        * TODO
+    * Testing
+        * unit tests
+        * integration tests
+    * Documentation
+        * docs.rs
+
+
+## Crypto Background
+
+### References
+
+* Similar projects
+    * go
+        * [dedis crypto](https://godoc.org/github.com/dedis/crypto)
+    * rust
+        * [rust-crypto](https://github.com/DaGenix/rust-crypto)
+        * [octavo](https://github.com/libOctavo/octavo.git)
+        * [ring](https://github.com/briansmith/ring)
+        * [crypto-bench](https://github.com/briansmith/crypto-bench)
+        * [libs.rs](http://libs.rs/cryptography/)
+        * [sodiumoxide libsodium binding](https://github.com/dnaq/sodiumoxide)
 
 * [awesome crypto](https://github.com/sobolevn/awesome-cryptography)
 * [prime number glossary](http://primes.utm.edu/glossary/home.php)
@@ -114,53 +192,7 @@
 * Zero Knowledge
     * https://blog.cryptographyengineering.com/2014/11/27/zero-knowledge-proofs-illustrated-primer/
 
-### BLS Signature (ECC, PBC) ###
-
-* History:
-    * Verheul (from Joux) tripartite DH (key agreement) protocol
-    * Boneh and Franklin identity-based encryption
-    * Boneh Lynn Shacham (BLS) short signature scheme
-
-* We’ve identified a number of uses for BLS and related crypto systems here
-
-* BLS requires a pairing-based crypto system,
-    * our Go crypto library doesn’t yet have
-    * though it has semi-working bindings to Stanford’s PBC library
-    * you would either need to port or create bindings for that functionality
-    * No OpenSSL support for pairing-based crypto
-
-* C lib
-    * `pbc`
-        * Steven Allen from AUR
-        * https://crypto.stanford.edu/pbc/
-        * builds on https://gmplib.org/
-    * `relic`
-        * Moritz Lipp from AUR
-        * https://github.com/relic-toolkit/relic
-        * seems PBC state-of-the-art
-
-* Rust lib
-    * `bn` zcash
-        * https://github.com/zcash/bn
-    * openssl bindings
-        * https://github.com/sfackler/rust-openssl
-
-* Crypto systems:
-    * `CS\_BilinearPairing` private
-        * implementation: `Tate`, `Weil`
-        * elliptic_curve: `CryptoEllipticCurve`
-        * group: `Bla`
-        * easy_problem: `DecisionalDiffieHellman`
-        * hard_problem: `ComputationalBilinearDiffieHellman`
-
-* Protocols:
-    * `ThreePartyOneRoundKeyAgreement`
-        * crypto_system: `CS\_BilinearPairing`
-    * `ShortSignature`
-        * crypto_system: `CS\_BilinearPairing`
-        * crypto_hash_fn: `Bla`
-
-### Elliptic Curve Crypto ###
+### Elliptic Curve Crypto
 
 * Links:
     * websites
@@ -244,159 +276,50 @@
     * Constant time and constant memory
         * https://github.com/bitcoin/bitcoin/tree/master/src/secp256k1
 
-## Type System ##
+### BLS Signature (ECC, PBC)
 
-### dedis/crypto public API ###
+* History:
+    * Verheul (from Joux) tripartite DH (key agreement) protocol
+    * Boneh and Franklin identity-based encryption
+    * Boneh Lynn Shacham (BLS) short signature scheme
 
-Go code example for ECDH:
+* We’ve identified a number of uses for BLS and related crypto systems here
 
-    // Crypto setup: NIST-standardized P256 curve with AES-128 and SHA-256
-    suite := nist.NewAES128SHA256P256()
+* BLS requires a pairing-based crypto system,
+    * our Go crypto library doesn’t yet have
+    * though it has semi-working bindings to Stanford’s PBC library
+    * you would either need to port or create bindings for that functionality
+    * No OpenSSL support for pairing-based crypto
 
-    // Alice's public/private keypair
-    a := suite.Scalar().Pick(random.Stream) // Alice's private key
-    A := suite.Point().Mul(nil, a)          // Alice's public key
+* C lib
+    * `pbc`
+        * Steven Allen from AUR
+        * https://crypto.stanford.edu/pbc/
+        * builds on https://gmplib.org/
+    * `relic`
+        * Moritz Lipp from AUR
+        * https://github.com/relic-toolkit/relic
+        * seems PBC state-of-the-art
 
-    // Bob's public/private keypair
-    b := suite.Scalar().Pick(random.Stream) // Alice's private key
-    B := suite.Point().Mul(nil, b)          // Alice's public key
+* Rust lib
+    * `bn` zcash
+        * https://github.com/zcash/bn
+    * openssl bindings
+        * https://github.com/sfackler/rust-openssl
 
-    // Assume Alice and Bob have securely obtained each other's public keys.
+* Crypto systems:
+    * `CS\_BilinearPairing` private
+        * implementation: `Tate`, `Weil`
+        * elliptic_curve: `CryptoEllipticCurve`
+        * group: `Bla`
+        * easy_problem: `DecisionalDiffieHellman`
+        * hard_problem: `ComputationalBilinearDiffieHellman`
 
-    // Alice computes their shared secret using Bob's public key.
-    SA := suite.Point().Mul(B, a)
+* Protocols:
+    * `ThreePartyOneRoundKeyAgreement`
+        * crypto_system: `CS\_BilinearPairing`
+    * `ShortSignature`
+        * crypto_system: `CS\_BilinearPairing`
+        * crypto_hash_fn: `Bla`
 
-    // Bob computes their shared secret using Alice's public key.
-    SB := suite.Point().Mul(A, b)
-
-    // They had better be the same!
-    if !SA.Equal(SB) {
-        panic("Diffie-Hellman key exchange didn't work")
-    }
-    println("Shared secret: " + SA.String())
-
-
-### Requirements ###
-
-* Requirements:
-    * Integrity
-    * Confidentiality
-    * Availability
-    * PerfectForwardSecrecy
-    * FormatPreservingCrypto
-    * Symmetric (alias SecretKey)
-    * Asymmetric (alias PublicKey)
-    * Deterministic
-    * Randomized
-
-* Applications:
-    * KeyExchange
-        * has
-        * is
-    * Encryption
-        * has
-        * is
-    * MessageAuthenticationCode
-        * has
-        * is
-    * ZeroKnoledgeProof
-        * has
-        * is
-    * DigitalSignature
-        * has
-        * is
-
-* Schemes:
-    * AuthenticatedEncryption
-        * has
-        * is
-    * ElGamal
-        * has
-        * is
-    * RSA
-        * has
-        * is
-    * DiffieHellman
-        * has
-        * is
-
-* Primitives:
-    * StreamCipher
-        * has
-        * is
-    * BlockCipher
-        * has
-        * is
-    * AES
-        * has
-        * is: BlockCipher
-    * DES
-        * has
-        * is: BlockCipher
-    * EllipticCurve
-        * has: a, b, p, P, order
-        * is: Group, DiscreteLogarithm
-
-    * TrapDoorFunction (alias OneWayFunction)
-        * has
-        * is
-
-* Functions
-    * HashFunction
-    * PseudoRandomFunction
-    * PseudoRandomPermutation
-
-* Problems
-    * DiscreteLogarithm
-        * has (struct fields) cyclic_group
-    * PrimeFactorization
-
-
-## Rust ##
-
-### Implementation details ###
-
-* Use of `?` operator for instead of `try!` macro
-
-* `Result`'s error handling passed to the client
-
-### External Crates ###
-
-* Big ints
-    * https://rust-num.github.io/num/num/index.html
-
-* [stdx collection](https://github.com/brson/stdx)
-    * contains official rust-lang crates
-    * and others
-* lint
-    * [clippy](https://github.com/Manishearth/rust-clippy)
-    * [herbie-lint](https://github.com/mcarton/rust-herbie-lint)
-* constant time run
-    * [nadeko](https://github.com/klutzy/nadeko)
-    * [ctgrind](https://github.com/ebfe/rust-ctgrind)
-        * https://github.com/agl/ctgrind
-
-* Fuzzing, static analysis on build
-    * see ring repo
-
-* Benchmarking
-    * [rust crypto bench](https://github.com/briansmith/crypto-bench)
-    * [results](http://bench.cr.yp.to/index.html)
-
-* Data validation
-    * input
-        * [untrusted](https://github.com/briansmith/untrusted)
-    * output
-        * `Result` enum with error codes
-        * `panic!`
-
-* Coverage
-    * TODO
-
-* Testing
-    * unit tests
-    * integration tests
-
-* Documentation
-    * docs.rs
 
