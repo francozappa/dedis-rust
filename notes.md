@@ -114,6 +114,50 @@ Go code example for ECDH:
 
 ### Rust
 
+* structs
+    * `*Scheme`
+        * `BLSScheme`
+            * Setup
+            * KeyGeneration
+            * Signing
+            * Verify
+    * `BilinearMap`
+        * aka Pairing
+        * Group 1
+        * Group 2
+    * `CyclicGroup`
+        * Type: `ec_over_k`, `z_star_n`
+        * Operation: `point_addition`, `field_multiplication`
+            * overloaded: `+`, `*`
+        * Order: `r`
+            * aka size
+            * typically `r` is prime
+        * Generator: `g`
+            * not unique
+    * `EllipticCurve`
+        * Generator
+        * Parameters
+
+* traits
+    * `*Problem`
+        * family
+        * Eg: `DiscreteLog`, `TwoPrimesFactorisation`
+        * and their PBC counterparts
+    * `CryptoEllipticCurve`
+        * Eg: Ed25519
+    * `SupersingularEllipticCurve`
+    * `CryptoCyclicGroup`
+        * Eg: TODO
+    * `GapDiffieHellmanGroup`
+        * computational hard, decisional easy
+        * used for BLS
+    * `SymmetricBilinearMap`
+        * used with super singular ec
+    * `AsymmetricBilinearMap`
+        * used for BLS
+    * `GeneralBilinearMap`
+        * used for BLS
+
 * semantic
     * Use of `?` operator for instead of `try!` macro
     * `Result`'s error handling passed to the client
