@@ -116,11 +116,15 @@ Go code example for ECDH:
 
 * structs
     * `*Scheme`
-        * `BLSScheme`
-            * Setup
-            * KeyGeneration
-            * Signing
-            * Verify
+        * family of structs
+    * `BLSScheme`
+        * has Setup
+        * has KeyGeneration
+        * has Signing
+        * has Verify
+        * is DLP hard
+        * is CDH hard
+        * is CoCHD hard
     * `BilinearMap`
         * aka Pairing
         * Group 1
@@ -138,19 +142,26 @@ Go code example for ECDH:
         * Generator
         * Parameters
 
-* traits
+* problem traits
     * `*Problem`
         * family
-        * Eg: `DiscreteLog`, `TwoPrimesFactorisation`
         * and their PBC counterparts
+    * `DiscreteLog`
+    * `TwoPrimesFactorisation`
+
+* elliptic curve traits
     * `CryptoEllipticCurve`
         * Eg: Ed25519
     * `SupersingularEllipticCurve`
+
+* group traits
     * `CryptoCyclicGroup`
         * Eg: TODO
     * `GapDiffieHellmanGroup`
         * computational hard, decisional easy
         * used for BLS
+
+* pbc traits
     * `SymmetricBilinearMap`
         * used with super singular ec
     * `AsymmetricBilinearMap`
